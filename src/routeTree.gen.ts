@@ -15,6 +15,7 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PreviewDothtmlRouteImport } from './routes/preview[.]html'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as RegisterRouteImport } from './routes/register'
@@ -58,6 +59,11 @@ const LoginRoute = LoginRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreviewDothtmlRoute = PreviewDothtmlRouteImport.update({
+  id: '/preview.html',
+  path: '/preview.html',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRouteWithChildren
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/preview.html': typeof PreviewDothtmlRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRouteWithChildren
   '/register': typeof RegisterRoute
@@ -160,6 +167,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRouteWithChildren
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/preview.html': typeof PreviewDothtmlRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRouteWithChildren
   '/register': typeof RegisterRoute
@@ -183,6 +191,7 @@ export interface FileRoutesById {
   '/home': typeof HomeRouteWithChildren
   '/login': typeof LoginRoute
   '/onboarding': typeof OnboardingRoute
+  '/preview.html': typeof PreviewDothtmlRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRouteWithChildren
   '/register': typeof RegisterRoute
@@ -207,6 +216,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/onboarding'
+    | '/preview.html'
     | '/privacy'
     | '/profile'
     | '/register'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/onboarding'
+    | '/preview.html'
     | '/privacy'
     | '/profile'
     | '/register'
@@ -251,6 +262,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/onboarding'
+    | '/preview.html'
     | '/privacy'
     | '/profile'
     | '/register'
@@ -274,6 +286,7 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRouteWithChildren
   LoginRoute: typeof LoginRoute
   OnboardingRoute: typeof OnboardingRoute
+  PreviewDothtmlRoute: typeof PreviewDothtmlRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRouteWithChildren
   RegisterRoute: typeof RegisterRoute
@@ -328,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preview.html': {
+      id: '/preview.html'
+      path: '/preview.html'
+      fullPath: '/preview.html'
+      preLoaderRoute: typeof PreviewDothtmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -473,6 +493,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRouteWithChildren,
   LoginRoute: LoginRoute,
   OnboardingRoute: OnboardingRoute,
+  PreviewDothtmlRoute: PreviewDothtmlRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRouteWithChildren,
   RegisterRoute: RegisterRoute,
