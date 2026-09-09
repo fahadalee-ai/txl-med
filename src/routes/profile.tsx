@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Bell, Headphones, LogOut, Pencil, Phone } from "lucide-react";
+import { Bell, Headphones, LogOut, MessageCircle, Pencil, Phone } from "lucide-react";
 import { useState } from "react";
 import { TextLogo } from "@/components/TextLogo";
 import { Button, Card, ConfirmDialog, LinkButton, Row, Screen } from "@/components/kit";
@@ -63,6 +63,8 @@ function ProfileScreen() {
       )}
 
       <div className="mt-6 overflow-hidden rounded-xl border border-border mx-4">
+        <Row icon={<Bell size={18} />} label="Notifications" to="/notifications" />
+        <Row icon={<MessageCircle size={18} />} label="Messages" to="/chat" />
         <Row
           icon={<Headphones size={18} />}
           label="Contact / Support"

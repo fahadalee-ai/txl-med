@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppointmentsRouteImport } from './routes/appointments'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as PreviewDothtmlRouteImport } from './routes/preview[.]html'
 import { Route as PrivacyRouteImport } from './routes/privacy'
@@ -27,6 +29,8 @@ import { Route as BookConfirmationRouteImport } from './routes/book/confirmation
 import { Route as BookDatetimeRouteImport } from './routes/book/datetime'
 import { Route as BookDetailsRouteImport } from './routes/book/details'
 import { Route as BookReviewRouteImport } from './routes/book/review'
+import { Route as ChatIdRouteImport } from './routes/chat.$id'
+import { Route as NotificationsIdRouteImport } from './routes/notifications.$id'
 import { Route as ProfileEditRouteImport } from './routes/profile.edit'
 import { Route as ProfileSupportRouteImport } from './routes/profile.support'
 import { Route as HomeServiceIdRouteImport } from './routes/home.service.$id'
@@ -39,6 +43,11 @@ const IndexRoute = IndexRouteImport.update({
 const AppointmentsRoute = AppointmentsRouteImport.update({
   id: '/appointments',
   path: '/appointments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
@@ -54,6 +63,11 @@ const HomeRoute = HomeRouteImport.update({
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OnboardingRoute = OnboardingRouteImport.update({
@@ -121,6 +135,16 @@ const BookReviewRoute = BookReviewRouteImport.update({
   path: '/book/review',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatIdRoute = ChatIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ChatRoute,
+} as any)
+const NotificationsIdRoute = NotificationsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => NotificationsRoute,
+} as any)
 const ProfileEditRoute = ProfileEditRouteImport.update({
   id: '/edit',
   path: '/edit',
@@ -140,9 +164,11 @@ const HomeServiceIdRoute = HomeServiceIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRouteWithChildren
+  '/chat': typeof ChatRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/home': typeof HomeRouteWithChildren
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/preview.html': typeof PreviewDothtmlRoute
   '/privacy': typeof PrivacyRoute
@@ -155,6 +181,8 @@ export interface FileRoutesByFullPath {
   '/book/datetime': typeof BookDatetimeRoute
   '/book/details': typeof BookDetailsRoute
   '/book/review': typeof BookReviewRoute
+  '/chat/$id': typeof ChatIdRoute
+  '/notifications/$id': typeof NotificationsIdRoute
   '/profile/edit': typeof ProfileEditRoute
   '/profile/support': typeof ProfileSupportRoute
   '/book/': typeof BookIndexRoute
@@ -163,9 +191,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRouteWithChildren
+  '/chat': typeof ChatRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/home': typeof HomeRouteWithChildren
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/preview.html': typeof PreviewDothtmlRoute
   '/privacy': typeof PrivacyRoute
@@ -178,6 +208,8 @@ export interface FileRoutesByTo {
   '/book/datetime': typeof BookDatetimeRoute
   '/book/details': typeof BookDetailsRoute
   '/book/review': typeof BookReviewRoute
+  '/chat/$id': typeof ChatIdRoute
+  '/notifications/$id': typeof NotificationsIdRoute
   '/profile/edit': typeof ProfileEditRoute
   '/profile/support': typeof ProfileSupportRoute
   '/book': typeof BookIndexRoute
@@ -187,9 +219,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/appointments': typeof AppointmentsRouteWithChildren
+  '/chat': typeof ChatRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
   '/home': typeof HomeRouteWithChildren
   '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRouteWithChildren
   '/onboarding': typeof OnboardingRoute
   '/preview.html': typeof PreviewDothtmlRoute
   '/privacy': typeof PrivacyRoute
@@ -202,6 +236,8 @@ export interface FileRoutesById {
   '/book/datetime': typeof BookDatetimeRoute
   '/book/details': typeof BookDetailsRoute
   '/book/review': typeof BookReviewRoute
+  '/chat/$id': typeof ChatIdRoute
+  '/notifications/$id': typeof NotificationsIdRoute
   '/profile/edit': typeof ProfileEditRoute
   '/profile/support': typeof ProfileSupportRoute
   '/book/': typeof BookIndexRoute
@@ -212,9 +248,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/appointments'
+    | '/chat'
     | '/forgot-password'
     | '/home'
     | '/login'
+    | '/notifications'
     | '/onboarding'
     | '/preview.html'
     | '/privacy'
@@ -227,6 +265,8 @@ export interface FileRouteTypes {
     | '/book/datetime'
     | '/book/details'
     | '/book/review'
+    | '/chat/$id'
+    | '/notifications/$id'
     | '/profile/edit'
     | '/profile/support'
     | '/book/'
@@ -235,9 +275,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/appointments'
+    | '/chat'
     | '/forgot-password'
     | '/home'
     | '/login'
+    | '/notifications'
     | '/onboarding'
     | '/preview.html'
     | '/privacy'
@@ -250,6 +292,8 @@ export interface FileRouteTypes {
     | '/book/datetime'
     | '/book/details'
     | '/book/review'
+    | '/chat/$id'
+    | '/notifications/$id'
     | '/profile/edit'
     | '/profile/support'
     | '/book'
@@ -258,9 +302,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/appointments'
+    | '/chat'
     | '/forgot-password'
     | '/home'
     | '/login'
+    | '/notifications'
     | '/onboarding'
     | '/preview.html'
     | '/privacy'
@@ -273,6 +319,8 @@ export interface FileRouteTypes {
     | '/book/datetime'
     | '/book/details'
     | '/book/review'
+    | '/chat/$id'
+    | '/notifications/$id'
     | '/profile/edit'
     | '/profile/support'
     | '/book/'
@@ -282,9 +330,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppointmentsRoute: typeof AppointmentsRouteWithChildren
+  ChatRoute: typeof ChatRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   HomeRoute: typeof HomeRouteWithChildren
   LoginRoute: typeof LoginRoute
+  NotificationsRoute: typeof NotificationsRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
   PreviewDothtmlRoute: typeof PreviewDothtmlRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -315,6 +365,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppointmentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/forgot-password': {
       id: '/forgot-password'
       path: '/forgot-password'
@@ -334,6 +391,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/onboarding': {
@@ -427,6 +491,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat/$id': {
+      id: '/chat/$id'
+      path: '/$id'
+      fullPath: '/chat/$id'
+      preLoaderRoute: typeof ChatIdRouteImport
+      parentRoute: typeof ChatRoute
+    }
+    '/notifications/$id': {
+      id: '/notifications/$id'
+      path: '/$id'
+      fullPath: '/notifications/$id'
+      preLoaderRoute: typeof NotificationsIdRouteImport
+      parentRoute: typeof NotificationsRoute
+    }
     '/profile/edit': {
       id: '/profile/edit'
       path: '/edit'
@@ -463,6 +541,16 @@ const AppointmentsRouteWithChildren = AppointmentsRoute._addFileChildren(
   AppointmentsRouteChildren,
 )
 
+interface ChatRouteChildren {
+  ChatIdRoute: typeof ChatIdRoute
+}
+
+const ChatRouteChildren: ChatRouteChildren = {
+  ChatIdRoute: ChatIdRoute,
+}
+
+const ChatRouteWithChildren = ChatRoute._addFileChildren(ChatRouteChildren)
+
 interface HomeRouteChildren {
   HomeServiceIdRoute: typeof HomeServiceIdRoute
 }
@@ -472,6 +560,18 @@ const HomeRouteChildren: HomeRouteChildren = {
 }
 
 const HomeRouteWithChildren = HomeRoute._addFileChildren(HomeRouteChildren)
+
+interface NotificationsRouteChildren {
+  NotificationsIdRoute: typeof NotificationsIdRoute
+}
+
+const NotificationsRouteChildren: NotificationsRouteChildren = {
+  NotificationsIdRoute: NotificationsIdRoute,
+}
+
+const NotificationsRouteWithChildren = NotificationsRoute._addFileChildren(
+  NotificationsRouteChildren,
+)
 
 interface ProfileRouteChildren {
   ProfileEditRoute: typeof ProfileEditRoute
@@ -489,9 +589,11 @@ const ProfileRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppointmentsRoute: AppointmentsRouteWithChildren,
+  ChatRoute: ChatRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
   HomeRoute: HomeRouteWithChildren,
   LoginRoute: LoginRoute,
+  NotificationsRoute: NotificationsRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
   PreviewDothtmlRoute: PreviewDothtmlRoute,
   PrivacyRoute: PrivacyRoute,

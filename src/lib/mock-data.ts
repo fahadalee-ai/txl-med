@@ -310,6 +310,187 @@ export function statusLabel(status: AppointmentStatus) {
   return "Cancelled";
 }
 
+export type NotificationKind = "appointment" | "reminder" | "system";
+
+export type AppNotification = {
+  id: string;
+  title: string;
+  body: string;
+  detail: string;
+  time: string;
+  read: boolean;
+  kind: NotificationKind;
+  cta?: { label: string; to: string; params?: Record<string, string> };
+};
+
+export type ChatThread = {
+  id: string;
+  name: string;
+  role: string;
+  preview: string;
+  time: string;
+  unread: number;
+};
+
+export type ChatMessage = {
+  id: string;
+  threadId: string;
+  from: "me" | "them";
+  text: string;
+  time: string;
+};
+
+export const NOTIFICATIONS: AppNotification[] = [
+  {
+    id: "n1",
+    title: "Visit confirmed",
+    body: "Your DOT physical is booked for Tuesday at 9:00 AM in Austin.",
+    detail:
+      "Jordan, your mobile DOT physical is confirmed. An FMCSA-certified examiner will meet you at 1840 E Cesar Chavez St, Austin, TX 78702. Please have your CDL and a government photo ID ready. Call us if the yard gate code changes.",
+    time: "2h ago",
+    read: false,
+    kind: "appointment",
+    cta: { label: "View appointment", to: "/appointments/$id", params: { id: "apt1" } },
+  },
+  {
+    id: "n2",
+    title: "What to bring",
+    body: "CDL, photo ID, and your glasses or contacts if you wear them.",
+    detail:
+      "For a complete FMCSA exam we need your commercial driver’s license, a second photo ID if requested, and corrective lenses if you use them for driving. Eat a normal meal and avoid excess caffeine so blood pressure reads cleanly. This is not a drug test — urinalysis checks for underlying medical conditions.",
+    time: "Yesterday",
+    read: false,
+    kind: "reminder",
+  },
+  {
+    id: "n3",
+    title: "Certificate reminder",
+    body: "Recertification is easier if you book 2–3 weeks before your MEC expires.",
+    detail:
+      "Your Medical Examiner’s Certificate should stay current to remain in service. TXL Med can come to your yard or a meetup on your route. Recertification is the same mobile DOT physical — typically 30–40 minutes.",
+    time: "3 days ago",
+    read: true,
+    kind: "reminder",
+    cta: { label: "Book recertification", to: "/book" },
+  },
+  {
+    id: "n4",
+    title: "Fleet exams available",
+    body: "Schedule multiple drivers in one on-site visit.",
+    detail:
+      "If your shop has several CDL drivers due, we can run group exams at your terminal. One trip, several certificates, less downtime. Reply to scheduling or book a fleet visit from Home.",
+    time: "1 week ago",
+    read: true,
+    kind: "system",
+    cta: { label: "See fleet exams", to: "/home/service/$id", params: { id: "fleet-dot" } },
+  },
+];
+
+export const CHAT_THREADS: ChatThread[] = [
+  {
+    id: "c1",
+    name: "TXL Med Scheduling",
+    role: "Front desk",
+    preview: "We’ll text you when the examiner is 20 minutes out.",
+    time: "10:14 AM",
+    unread: 1,
+  },
+  {
+    id: "c2",
+    name: "Dr. Elena Vasquez",
+    role: "FMCSA examiner",
+    preview: "Park by the office — I’ll find you at the gate.",
+    time: "Yesterday",
+    unread: 0,
+  },
+  {
+    id: "c3",
+    name: "Support",
+    role: "TXL Med PLLC",
+    preview: "Hours are Monday–Saturday, 7 AM – 7 PM.",
+    time: "Mon",
+    unread: 0,
+  },
+];
+
+export const CHAT_MESSAGES: ChatMessage[] = [
+  {
+    id: "m1",
+    threadId: "c1",
+    from: "them",
+    text: "Hi Jordan — your DOT physical is confirmed for Tuesday at 9:00 AM at the Austin yard.",
+    time: "9:02 AM",
+  },
+  {
+    id: "m2",
+    threadId: "c1",
+    from: "me",
+    text: "Perfect. Gate code is still 4412.",
+    time: "9:18 AM",
+  },
+  {
+    id: "m3",
+    threadId: "c1",
+    from: "them",
+    text: "Got it. We’ll text you when the examiner is 20 minutes out.",
+    time: "10:14 AM",
+  },
+  {
+    id: "m4",
+    threadId: "c2",
+    from: "them",
+    text: "This is Dr. Vasquez. I’ll be on site for your DOT physical tomorrow morning.",
+    time: "4:40 PM",
+  },
+  {
+    id: "m5",
+    threadId: "c2",
+    from: "me",
+    text: "Thanks, doctor. I’ll be by the office.",
+    time: "5:02 PM",
+  },
+  {
+    id: "m6",
+    threadId: "c2",
+    from: "them",
+    text: "Park by the office — I’ll find you at the gate.",
+    time: "5:06 PM",
+  },
+  {
+    id: "m7",
+    threadId: "c3",
+    from: "them",
+    text: "TXL Med PLLC — how can we help with scheduling or coverage?",
+    time: "Mon",
+  },
+  {
+    id: "m8",
+    threadId: "c3",
+    from: "me",
+    text: "Do you cover San Antonio yards on Saturdays?",
+    time: "Mon",
+  },
+  {
+    id: "m9",
+    threadId: "c3",
+    from: "them",
+    text: "Yes. Hours are Monday–Saturday, 7 AM – 7 PM across Austin, San Antonio, Houston, and DFW corridors.",
+    time: "Mon",
+  },
+];
+
+export function notificationById(id: string) {
+  return NOTIFICATIONS.find((n) => n.id === id);
+}
+
+export function chatThreadById(id: string) {
+  return CHAT_THREADS.find((t) => t.id === id);
+}
+
+export function messagesForThread(threadId: string) {
+  return CHAT_MESSAGES.filter((m) => m.threadId === threadId);
+}
+
 export function unavailableSlotsForDate(iso: string) {
   const day = Number(iso.split("-")[2] ?? 0);
   if (day % 5 === 0) return ["09:00", "09:30", "13:00"];

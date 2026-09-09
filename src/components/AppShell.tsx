@@ -9,6 +9,11 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const showTabs = isTabRoute(pathname);
   const { toasts, dismissToast } = useApp();
+  const isPreview = pathname === "/preview.html";
+
+  if (isPreview) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col bg-background shadow-[0_0_0_1px_rgba(27,42,68,0.08)]">

@@ -1,11 +1,21 @@
 import { Outlet, createFileRoute, Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { ChevronRight, Clock, MapPin, Phone, ShieldCheck } from "lucide-react";
+import type { ReactNode } from "react";
+import { Bell, ChevronRight, Clock, MapPin, MessageCircle, Phone, ShieldCheck } from "lucide-react";
 import { TextLogo } from "@/components/TextLogo";
 import { TexasWatermark } from "@/components/TexasWatermark";
 import { Button, Card, Chip, SectionTitle } from "@/components/kit";
 import { IMAGES } from "@/lib/images";
-import { BUSINESS, HOW_IT_WORKS, SERVICES, TRUST_POINTS, greeting } from "@/lib/mock-data";
+import {
+  BUSINESS,
+  CHAT_THREADS,
+  HOW_IT_WORKS,
+  NOTIFICATIONS,
+  SERVICES,
+  TRUST_POINTS,
+  greeting,
+} from "@/lib/mock-data";
 import { useApp } from "@/lib/store";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/home")({
   head: () => ({ meta: [{ title: "Home — TXL Med PLLC" }] }),
@@ -34,10 +44,28 @@ function HomeScreen() {
         <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background to-transparent" />
 
         <div className="absolute inset-x-0 top-0 flex items-start justify-between px-4 pt-[max(0.85rem,env(safe-area-inset-top))]">
-          <TextLogo variant="white" size="sm" className="text-left" />
-          <p className="pt-1 text-xs font-medium text-white/80">
-            {user ? `${greeting()}, ${user.name.split(" ")[0]}` : "Texas · Mobile DOT"}
-          </p>
+          <div>
+            <TextLogo variant="white" size="sm" className="text-left" />
+            <p className="mt-1 text-xs font-medium text-white/80">
+              {user ? `${greeting()}, ${user.name.split(" ")[0]}` : "Texas · Mobile DOT"}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <HeaderIcon
+              to="/chat"
+              label="Messages"
+              count={CHAT_THREADS.reduce((n, t) => n + t.unread, 0)}
+            >
+              <MessageCircle size={18} />
+            </HeaderIcon>
+            <HeaderIcon
+              to="/notifications"
+              label="Notifications"
+              count={NOTIFICATIONS.filter((n) => !n.read).length}
+            >
+              <Bell size={18} />
+            </HeaderIcon>
+          </div>
         </div>
 
         <div className="absolute inset-x-0 bottom-6 px-4">
@@ -143,5 +171,36 @@ function HomeScreen() {
         </Card>
       </div>
     </div>
+  );
+}
+
+function HeaderIcon({
+  to,
+  label,
+  count,
+  children,
+}: {
+  to: "/chat" | "/notifications";
+  label: string;
+  count: number;
+  children: ReactNode;
+}) {
+  return (
+    <Link
+      to={to}
+      aria-label={label}
+      className="relative flex size-11 items-center justify-center rounded-xl border border-white/30 bg-ink/30 text-white backdrop-blur-sm"
+    >
+      {children}
+      {count > 0 && (
+        <span
+          className={cn(
+            "absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground",
+          )}
+        >
+          {count}
+        </span>
+      )}
+    </Link>
   );
 }
